@@ -1,23 +1,45 @@
 // JavaScript File
-window.onload = function(){
+window.onload = function()
+{
     var search = document.getElementById("search");
-    search.addEventListener("click", function(e){
+    
+    var searchDic = document.querySelector("#searchb");
+    
+    var result= document.getElementById("result");
+    
+    var xmlhttp;
+    
+    searchDic.addEventListener("click", function(e){
        e.preventDefault();
-       var xmlhttp= new XMLHttpRequest();
-       xmlhttp.onreadystatechange = getHTML;
+       
+       var textS= search.value;
+       if (textS != ""){
+       
+              xmlhttp= new XMLHttpRequest();
+              xmlhttp.onreadystatechange = getHTML;
+              var link= "request.php?q=" + textS;
+              xmlhttp.open("GET", link, true);
+              xmlhttp.send();
+       }
+       else
+       {
+           
+              result.innerHTML= xmlhttp.responseText;
+       }
         
-        xmlhttp.open("GET", "request.php?q=definition");
-        xmlhttp.send();
-        
+     
         
         function getHTML(){
-            if(xmlhttp.readyState === XMLHttpRequest.DONE){
+            if (xmlhttp.readyState === XMLHttpRequest.DONE){
                 if (xmlhttp.status === 200) {
-                    alert(xmlhttp.responseText);
+                    //alert(xmlhttp.responseText);
+                    result.innerHTML=xmlhttp.responseText;
+                 
+                    
                 }
                 
             }
+    
         }
-        
     });
 };
